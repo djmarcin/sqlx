@@ -81,6 +81,8 @@ pub fn expand_input(input: QueryMacroInput) -> crate::Result<TokenStream> {
                 expand_from_file(input, data_file_path)
             } else if workspace_data_file_path.exists() {
                 expand_from_file(input, workspace_data_file_path)
+            } else if let Ok(data_file_path) = dotenv::var("SQLX_OFFLINE_DATA") {
+                expand_from_file(input, data_file_path)
             } else {
                 Err(
                     "`DATABASE_URL` must be set, or `cargo sqlx prepare` must have been run \
