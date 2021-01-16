@@ -56,6 +56,7 @@ pub struct SqliteConnectOptions {
     pub(crate) busy_timeout: Duration,
     pub(crate) log_settings: LogSettings,
     pub(crate) synchronous: SqliteSynchronous,
+    pub(crate) immutable: bool,
 }
 
 impl Default for SqliteConnectOptions {
@@ -78,6 +79,7 @@ impl SqliteConnectOptions {
             busy_timeout: Duration::from_secs(5),
             log_settings: Default::default(),
             synchronous: SqliteSynchronous::Full,
+            immutable: false,
         }
     }
 
@@ -146,6 +148,11 @@ impl SqliteConnectOptions {
     /// then NORMAL is normally all one needs in WAL mode.
     pub fn synchronous(mut self, synchronous: SqliteSynchronous) -> Self {
         self.synchronous = synchronous;
+        self
+    }
+
+    pub fn immutable(mut self, immutable: bool) -> Self {
+        self.immutable = immutable;
         self
     }
 }
